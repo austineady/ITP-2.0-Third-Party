@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Third Party</title>
+</head>
+<body>
+  <script>
+    function makeRequestWithUserGesture() {
+      var promise = document.requestStorageAccess();
+
+      promise.then(
+        function () {
+          console.log('Storage request was allowed.');
+          document.cookie = 'test=true;max-age=31536000;expires=31536000;';
+          document.getElementById('status').innerText = 'ALLOWED';
+          document.getElementById('cookies').innerText = document.cookie;
+        },
+        function () {
+          console.log('Storage request was denied.');
+          document.getElementById('status').innerText = 'DENIED';
+          document.getElementById('cookies').innerText = document.cookie;
+        }
+      );
+    }
+  </script>
+  <button onclick="makeRequestWithUserGesture()">Attempt Storage</button>
+  <div id="status"></div>
+  <div id="cookies"></div>
+</body>
+</html>
