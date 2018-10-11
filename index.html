@@ -14,12 +14,26 @@
       promise.then(
         function () {
           console.log('Storage request was allowed.');
-          document.cookie = 'test=true;max-age=31536000;expires=31536000;';
-          document.getElementById('status').innerText = 'ALLOWED';
+          // document.cookie = 'test=true;max-age=31536000;expires=31536000;';
+          document.getElementById('result').innerText = 'ALLOWED';
           document.getElementById('cookies').innerText = document.cookie;
         },
         function () {
           console.log('Storage request was denied.');
+          document.getElementById('result').innerText = 'DENIED';
+          document.getElementById('cookies').innerText = document.cookie;
+        }
+      );
+    }
+
+    function checkStorageStatus() {
+      document.hasStorageAccess().then(
+        function () {
+          document.getElementById('status').innerText = 'ALLOWED';
+          document.getElementById('cookies').innerText = document.cookie;
+        },
+        function (reason) {
+          // Promise was rejected for some reason.
           document.getElementById('status').innerText = 'DENIED';
           document.getElementById('cookies').innerText = document.cookie;
         }
@@ -27,7 +41,9 @@
     }
   </script>
   <button onclick="makeRequestWithUserGesture()">Attempt Storage</button>
+  <button onclick="checkStorageStatus()">Check Status</button>
   <div id="status"></div>
+  <div id="result"></div>
   <div id="cookies"></div>
 </body>
 </html>
